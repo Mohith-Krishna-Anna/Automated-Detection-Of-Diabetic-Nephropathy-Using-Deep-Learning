@@ -9,6 +9,7 @@ Detect diabetic nephropathy at an early stage
 Improve prediction accuracy using deep learning
 Reduce manual diagnosis effort
 Assist healthcare professionals in decision-making
+
 🧠 Technologies Used
 Python
 Deep Learning (ANN)
@@ -18,6 +19,7 @@ Pandas
 NumPy
 Matplotlib
 Flask (Optional for deployment)
+
 📊 Dataset Features
 
 The dataset may include the following medical parameters:
@@ -30,6 +32,7 @@ Albumin Levels
 BMI
 HbA1c
 GFR (Glomerular Filtration Rate)
+
 ⚙️ System Workflow
 Data Collection
 Data Preprocessing
@@ -37,6 +40,7 @@ Feature Selection
 Model Training (ANN)
 Model Evaluation
 Prediction Output
+
 🏗️ Model Architecture
 Input Layer (Medical Features)
 Hidden Layers (Deep Learning ANN)
@@ -47,18 +51,21 @@ Output Classes:
 Normal
 Early Stage
 High Risk
+
 🚀 Features
 Automated detection
 High accuracy prediction
 Early diagnosis support
 Scalable system
 Easy deployment
+
 📈 Future Enhancements
 Use CNN or Hybrid Deep Learning Models
 Real-time prediction system
 Web-based interface using Flask
 Integration with hospital systems
 Improve dataset size for better accuracy
+
 🏥 Applications
 Hospitals
 Diagnostic Centers
