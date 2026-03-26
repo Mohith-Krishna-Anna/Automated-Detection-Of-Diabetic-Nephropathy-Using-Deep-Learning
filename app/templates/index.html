@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diabetic Nephropathy Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>Diabetic Nephropathy Detection</h1>
+    <p class="subtitle">Enter patient clinical details below</p>
+    <p style="font-size: 14px; color: gray;">
+    ⓘ Hover over the info icon to understand each medical parameter.
+    </p>
+
+    <form action="/predict" method="post">
+
+        <div class="grid">
+
+            <!-- NUMERICAL -->
+            <div class="field">
+                <label>Age <span title="Patient age in years">ⓘ</span></label>
+                <input type="number" name="f1" required>
+            </div>
+
+            <div class="field">
+                <label>Blood Pressure <span title="mm Hg (normal ~120/80)">ⓘ</span></label>
+                <input type="number" name="f2" required>
+            </div>
+
+            <div class="field">
+                <label>Specific Gravity <span title="Urine concentration (1.005–1.030)">ⓘ</span></label>
+                <input type="number" step="0.001" name="f3" required>
+            </div>
+
+            <div class="field">
+                <label>Albumin <span title="Protein level in urine (0–5)">ⓘ</span></label>
+                <input type="number" name="f4" required>
+            </div>
+
+            <div class="field">
+                <label>Sugar <span title="Urine sugar level (0–5)">ⓘ</span></label>
+                <input type="number" name="f5" required>
+            </div>
+
+            <div class="field">
+                <label>Blood Glucose Random <span title="mg/dL (normal <140)">ⓘ</span></label>
+                <input type="number" name="f6" required>
+            </div>
+
+            <div class="field">
+                <label>Blood Urea <span title="mg/dL (normal 7–20)">ⓘ</span></label>
+                <input type="number" name="f7" required>
+            </div>
+
+            <div class="field">
+                <label>Serum Creatinine <span title="mg/dL (kidney function indicator)">ⓘ</span></label>
+                <input type="number" step="0.1" name="f8" required>
+            </div>
+
+            <div class="field">
+                <label>Sodium <span title="mEq/L (normal 135–145)">ⓘ</span></label>
+                <input type="number" name="f9" required>
+            </div>
+
+            <div class="field">
+                <label>Potassium <span title="mEq/L (normal 3.5–5.0)">ⓘ</span></label>
+                <input type="number" step="0.1" name="f10" required>
+            </div>
+
+            <div class="field">
+                <label>Hemoglobin <span title="g/dL (normal ~13–17)">ⓘ</span></label>
+                <input type="number" step="0.1" name="f11" required>
+            </div>
+
+            <div class="field">
+                <label>Packed Cell Volume <span title="% of RBC in blood">ⓘ</span></label>
+                <input type="number" name="f12" required>
+            </div>
+
+            <div class="field">
+                <label>White Blood Cell Count <span title="cells/cumm">ⓘ</span></label>
+                <input type="number" name="f13" required>
+            </div>
+
+            <div class="field">
+                <label>Red Blood Cell Count <span title="millions/cumm">ⓘ</span></label>
+                <input type="number" step="0.1" name="f14" required>
+            </div>
+
+            <!-- CATEGORICAL -->
+            <div class="field">
+                <label>RBC Condition</label>
+                <select name="f15">
+                    <option value="1">Normal</option>
+                    <option value="0">Abnormal</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Pus Cell</label>
+                <select name="f16">
+                    <option value="1">Normal</option>
+                    <option value="0">Abnormal</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Pus Cell Clumps</label>
+                <select name="f17">
+                    <option value="1">Present</option>
+                    <option value="0">Not Present</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Bacteria</label>
+                <select name="f18">
+                    <option value="1">Present</option>
+                    <option value="0">Not Present</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Hypertension</label>
+                <select name="f19">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Diabetes Mellitus</label>
+                <select name="f20">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Coronary Artery Disease</label>
+                <select name="f21">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Appetite</label>
+                <select name="f22">
+                    <option value="1">Poor</option>
+                    <option value="0">Good</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Pedal Edema</label>
+                <select name="f23">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Anemia</label>
+                <select name="f24">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+        </div>
+
+        <button type="submit">Predict</button>
+
+    </form>
+
+    <div class="result">
+        <h2>{{ prediction_text }}</h2>
+        <h3>{{ confidence }}</h3>
+    </div>
+</div>
+
+</body>
+</html>

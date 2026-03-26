@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Predict — Diabetic Nephropathy Detection</title>
+  <meta name="description" content="Enter patient clinical data to predict Diabetic Nephropathy." />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="{{ url_for('predict') }}" class="navbar-brand">
+    <div class="brand-icon">🩺</div>
+    DN&nbsp;Detect
+  </a>
+  <div class="navbar-links">
+    <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+    <span class="nav-link" style="color:var(--text);">👤 {{ username }}</span>
+    <a href="{{ url_for('logout') }}" id="logout-btn" class="nav-btn nav-btn-ghost">Logout</a>
+  </div>
+</nav>
+
+<!-- Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">
+          {% if category == 'error' %}⚠️{% elif category == 'success' %}✅{% elif category == 'warning' %}💡{% else %}ℹ️{% endif %}
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<div class="predict-wrapper">
+  <div class="page-header">
+    <h1>🔬 Patient Prediction Form</h1>
+    <p>Fill in all clinical parameters below and click <strong>Run Prediction</strong>. Hover <abbr title="Tooltip example">ⓘ</abbr> icons for guidance.</p>
+  </div>
+
+  <form method="POST" action="{{ url_for('predict_result') }}">
+
+    <!-- Numerical Parameters -->
+    <div class="section-card">
+      <div class="section-title">📊 Numerical Parameters</div>
+      <div class="grid-2">
+
+        <div class="field">
+          <label>Age <i class="info-icon" title="Patient age in years">ⓘ</i></label>
+          <input type="number" name="f1" min="1" max="120" placeholder="e.g. 45" required />
+        </div>
+
+        <div class="field">
+          <label>Blood Pressure <i class="info-icon" title="mm Hg — normal ~80 (diastolic)">ⓘ</i></label>
+          <input type="number" name="f2" placeholder="e.g. 80" required />
+        </div>
+
+        <div class="field">
+          <label>Specific Gravity <i class="info-icon" title="Urine concentration, range 1.005–1.030">ⓘ</i></label>
+          <input type="number" step="0.001" name="f3" placeholder="e.g. 1.020" required />
+        </div>
+
+        <div class="field">
+          <label>Albumin <i class="info-icon" title="Protein level in urine (0–5 scale)">ⓘ</i></label>
+          <input type="number" name="f4" min="0" max="5" placeholder="e.g. 1" required />
+        </div>
+
+        <div class="field">
+          <label>Sugar <i class="info-icon" title="Urine sugar level (0–5 scale)">ⓘ</i></label>
+          <input type="number" name="f5" min="0" max="5" placeholder="e.g. 0" required />
+        </div>
+
+        <div class="field">
+          <label>Blood Glucose Random <i class="info-icon" title="mg/dL — normal < 140">ⓘ</i></label>
+          <input type="number" name="f6" placeholder="e.g. 120" required />
+        </div>
+
+        <div class="field">
+          <label>Blood Urea <i class="info-icon" title="mg/dL — normal 7–20">ⓘ</i></label>
+          <input type="number" name="f7" placeholder="e.g. 25" required />
+        </div>
+
+        <div class="field">
+          <label>Serum Creatinine <i class="info-icon" title="mg/dL — kidney function indicator">ⓘ</i></label>
+          <input type="number" step="0.1" name="f8" placeholder="e.g. 1.2" required />
+        </div>
+
+        <div class="field">
+          <label>Sodium <i class="info-icon" title="mEq/L — normal 135–145">ⓘ</i></label>
+          <input type="number" name="f9" placeholder="e.g. 140" required />
+        </div>
+
+        <div class="field">
+          <label>Potassium <i class="info-icon" title="mEq/L — normal 3.5–5.0">ⓘ</i></label>
+          <input type="number" step="0.1" name="f10" placeholder="e.g. 4.5" required />
+        </div>
+
+        <div class="field">
+          <label>Hemoglobin <i class="info-icon" title="g/dL — normal ~13–17">ⓘ</i></label>
+          <input type="number" step="0.1" name="f11" placeholder="e.g. 14.0" required />
+        </div>
+
+        <div class="field">
+          <label>Packed Cell Volume <i class="info-icon" title="% of RBC in blood (hematocrit)">ⓘ</i></label>
+          <input type="number" name="f12" placeholder="e.g. 44" required />
+        </div>
+
+        <div class="field">
+          <label>WBC Count <i class="info-icon" title="cells/cumm — white blood cells">ⓘ</i></label>
+          <input type="number" name="f13" placeholder="e.g. 7800" required />
+        </div>
+
+        <div class="field">
+          <label>RBC Count <i class="info-icon" title="millions/cumm — red blood cell count">ⓘ</i></label>
+          <input type="number" step="0.1" name="f14" placeholder="e.g. 4.7" required />
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Categorical Parameters -->
+    <div class="section-card">
+      <div class="section-title">🗂️ Categorical Parameters</div>
+      <div class="grid-2">
+
+        <div class="field">
+          <label>RBC Condition</label>
+          <select name="f15">
+            <option value="1">Normal</option>
+            <option value="0">Abnormal</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Pus Cell</label>
+          <select name="f16">
+            <option value="1">Normal</option>
+            <option value="0">Abnormal</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Pus Cell Clumps</label>
+          <select name="f17">
+            <option value="1">Present</option>
+            <option value="0">Not Present</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Bacteria</label>
+          <select name="f18">
+            <option value="1">Present</option>
+            <option value="0">Not Present</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Hypertension</label>
+          <select name="f19">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Diabetes Mellitus</label>
+          <select name="f20">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Coronary Artery Disease</label>
+          <select name="f21">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Appetite</label>
+          <select name="f22">
+            <option value="1">Poor</option>
+            <option value="0">Good</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Pedal Edema</label>
+          <select name="f23">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Anemia</label>
+          <select name="f24">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="submit-bar">
+      <button id="predict-btn" type="submit" class="btn btn-submit">⚡ Run Prediction</button>
+    </div>
+
+  </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register — Diabetic Nephropathy Detection</title>
+  <meta name="description" content="Create an account for Diabetic Nephropathy Detection." />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="{{ url_for('home') }}" class="navbar-brand">
+    <div class="brand-icon">🩺</div>
+    DN&nbsp;Detect
+  </a>
+  <div class="navbar-links">
+    <a href="{{ url_for('login') }}" class="nav-btn nav-btn-ghost">Sign In</a>
+  </div>
+</nav>
+
+<!-- Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">
+          {% if category == 'error' %}⚠️{% elif category == 'success' %}✅{% elif category == 'warning' %}💡{% else %}ℹ️{% endif %}
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="card-icon">🧬</div>
+    <h1>Create Account</h1>
+    <p class="subtitle">Register to use the DN prediction system</p>
+
+    <form method="POST" action="{{ url_for('register') }}" autocomplete="off">
+      <div class="form-group">
+        <label for="reg-username">Username</label>
+        <div class="input-wrap">
+          <span class="input-icon">👤</span>
+          <input
+            id="reg-username"
+            class="form-control"
+            type="text"
+            name="username"
+            placeholder="Choose a username"
+            required
+            autocomplete="off"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="reg-password">Password</label>
+        <div class="input-wrap">
+          <span class="input-icon">🔒</span>
+          <input
+            id="reg-password"
+            class="form-control"
+            type="password"
+            name="password"
+            placeholder="At least 6 characters"
+            required
+            minlength="6"
+            autocomplete="new-password"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="reg-confirm">Confirm Password</label>
+        <div class="input-wrap">
+          <span class="input-icon">✅</span>
+          <input
+            id="reg-confirm"
+            class="form-control"
+            type="password"
+            name="confirm"
+            placeholder="Re-enter your password"
+            required
+            autocomplete="new-password"
+          />
+        </div>
+      </div>
+
+      <button id="register-btn" type="submit" class="btn btn-primary" style="margin-top:.4rem;">
+        Create Account →
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      Already have an account? <a href="{{ url_for('login') }}">Sign In</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

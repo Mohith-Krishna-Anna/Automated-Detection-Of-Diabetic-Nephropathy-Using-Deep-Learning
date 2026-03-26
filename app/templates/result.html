@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Result — Diabetic Nephropathy Detection</title>
+  <meta name="description" content="Prediction result for Diabetic Nephropathy Detection." />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="{{ url_for('predict') }}" class="navbar-brand">
+    <div class="brand-icon">🩺</div>
+    DN&nbsp;Detect
+  </a>
+  <div class="navbar-links">
+    <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+    <span class="nav-link" style="color:var(--text);">👤 {{ username }}</span>
+    <a href="{{ url_for('logout') }}" id="logout-btn" class="nav-btn nav-btn-ghost">Logout</a>
+  </div>
+</nav>
+
+<div class="result-wrapper">
+  <div class="result-card">
+
+    {% if result_type == 'danger' %}
+      <div class="result-icon">⚠️</div>
+      <div class="result-badge danger">CKD Detected</div>
+      <h1>Chronic Kidney Disease Detected</h1>
+      <p style="color:var(--muted); margin-top:.5rem; font-size:.95rem;">
+        The model predicts a high likelihood of diabetic nephropathy. Please consult a nephrologist for further evaluation.
+      </p>
+    {% else %}
+      <div class="result-icon">✅</div>
+      <div class="result-badge safe">No CKD Detected</div>
+      <h1>No Kidney Disease Detected</h1>
+      <p style="color:var(--muted); margin-top:.5rem; font-size:.95rem;">
+        The model predicts a low likelihood of diabetic nephropathy. Continue routine monitoring for best kidney health.
+      </p>
+    {% endif %}
+
+    <!-- Confidence bar -->
+    <div class="confidence-bar-wrap">
+      <div class="confidence-label">
+        <span>Model Confidence</span>
+        <strong>{{ confidence }}%</strong>
+      </div>
+      <div class="confidence-bar">
+        <div
+          id="confidence-fill"
+          class="confidence-fill {{ result_type }}"
+          style="width: 0%;"
+        ></div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="result-actions">
+      <a id="predict-again-btn" href="{{ url_for('predict') }}" class="btn btn-primary">🔄 New Prediction</a>
+      <a id="logout-result-btn" href="{{ url_for('logout') }}" class="btn btn-danger-ghost">🚪 Logout</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- Animate confidence bar on load -->
+<script>
+  window.addEventListener('load', function () {
+    var fill = document.getElementById('confidence-fill');
+    if (fill) {
+      setTimeout(function () {
+        fill.style.width = '{{ confidence }}%';
+      }, 200);
+    }
+  });
+</script>
+
+</body>
+</html>

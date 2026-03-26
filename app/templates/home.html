@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diabetic Nephropathy Detection — Home</title>
+  <meta name="description" content="AI-powered early detection of Diabetic Nephropathy using clinical parameters. Learn about the project and get started." />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="{{ url_for('home') }}" class="navbar-brand">
+    <div class="brand-icon">🩺</div>
+    DN&nbsp;Detect
+  </a>
+  <div class="navbar-links">
+    <a href="#about"      class="nav-link">About</a>
+    <a href="#parameters" class="nav-link">Parameters</a>
+    <a href="{{ url_for('login') }}"    class="nav-btn nav-btn-ghost">Sign In</a>
+    <a href="{{ url_for('register') }}" class="nav-btn nav-btn-primary">Get Started</a>
+  </div>
+</nav>
+
+<!-- Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">
+          {% if category == 'error' %}⚠️{% elif category == 'success' %}✅{% elif category == 'warning' %}💡{% else %}ℹ️{% endif %}
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-badge">🔬 AI-Powered Renal Disease Detection</div>
+  <h1>Early Detection of<br /><span>Diabetic Nephropathy</span></h1>
+  <p>
+    An ANN-based clinical decision support system that analyses 24 patient parameters
+    to predict Chronic Kidney Disease (CKD) caused by diabetes — enabling faster,
+    data-driven medical insights.
+  </p>
+  <div class="hero-actions">
+    <a href="{{ url_for('register') }}" id="hero-get-started" class="btn btn-hero-primary">🚀 Get Started →</a>
+    <a href="#about" class="btn btn-hero-ghost">Learn More ↓</a>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-strip">
+  <div class="stat">
+    <div class="stat-val">24</div>
+    <div class="stat-label">Clinical Parameters</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">ANN</div>
+    <div class="stat-label">Model Architecture</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">CKD</div>
+    <div class="stat-label">Target Condition</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">DN</div>
+    <div class="stat-label">Diabetic Nephropathy</div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <!-- About Section -->
+  <div id="about" class="section-head">
+    <div class="eyebrow">About the Project</div>
+    <h2>What is Diabetic Nephropathy?</h2>
+    <p>Diabetic Nephropathy is a serious kidney complication of Type 1 and Type 2 diabetes, and a leading cause of Chronic Kidney Disease (CKD) worldwide. Early detection can dramatically slow progression.</p>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-card">
+      <div class="ac-icon">🎯</div>
+      <h3>Objective</h3>
+      <p>Build a machine-learning-powered tool that uses routine clinical and lab data to predict whether a patient is at risk of CKD due to diabetic nephropathy.</p>
+    </div>
+    <div class="about-card">
+      <div class="ac-icon">🧠</div>
+      <h3>Model</h3>
+      <p>An Artificial Neural Network (ANN) trained on the UCI Chronic Kidney Disease dataset. Inputs are scaled with a StandardScaler before inference to ensure consistent predictions.</p>
+    </div>
+    <div class="about-card">
+      <div class="ac-icon">📋</div>
+      <h3>Inputs</h3>
+      <p>The model accepts 14 numerical clinical measurements (e.g., hemoglobin, creatinine) and 10 categorical indicators (e.g., hypertension, diabetes mellitus) for a total of 24 features.</p>
+    </div>
+    <div class="about-card">
+      <div class="ac-icon">📊</div>
+      <h3>Output</h3>
+      <p>A binary classification — <strong>CKD Detected</strong> or <strong>No CKD</strong> — accompanied by a confidence score representing the model's probability estimate.</p>
+    </div>
+    <div class="about-card">
+      <div class="ac-icon">🔒</div>
+      <h3>Access Control</h3>
+      <p>The prediction module is secured behind a login system. Register an account to run predictions, ensuring patient data remains controlled and auditable.</p>
+    </div>
+    <div class="about-card">
+      <div class="ac-icon">⚡</div>
+      <h3>Technology</h3>
+      <p>Built with Python, Flask, TensorFlow/Keras, and scikit-learn. A lightweight yet powerful stack that brings clinical AI to the browser seamlessly.</p>
+    </div>
+  </div>
+
+  <!-- Parameters Section -->
+  <div id="parameters" class="section-head">
+    <div class="eyebrow">Input Features</div>
+    <h2>Clinical Parameters Explained</h2>
+    <p>All 24 parameters fed into the model — what they measure, their normal range, and their clinical significance.</p>
+  </div>
+
+  <div class="param-table-wrap">
+    <table class="param-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Parameter</th>
+          <th>Type</th>
+          <th>Normal Range / Values</th>
+          <th>Clinical Significance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Numerical -->
+        <tr>
+          <td>1</td>
+          <td>Age</td>
+          <td><span class="type-pill type-num">Numerical</span></td>
+          <td>1 – 120 years</td>
+          <td>Risk of CKD increases significantly with age.</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Blood Pressure</td>
+          <td><span class="type-pill type-num">Numerical</span></td>
+          <td>≤ 90 mm Hg (diastolic)</td>
+          <td>Hypertension accelerates kidney damage.</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Specific Gravity</td>
+          <td><span class="type-pill type-num">Numerical</span></td>
+          <td>1.005 – 1.030</td>
+          <td>Measures urine concentration; low values suggest impaired kidneys.</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Albumin</td>
+          <td><span class="type-pill type-num">Numerical</span></td>
+          <td>0 – 5 scale</td>
+          <td>Excess urine protein (proteinuria) is a hallmark of nephropathy.</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Sugar</td>
+          <td><span class="type-pill type-num">Numerical</span></td>
+          <td>0 – 5 scale</td>
+          <td>Glucose in urine (glucosuria) correlates with uncontrolled diabetes.</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Blood Glucose Random</td>
+          <td><span class="type-pill type-num">Numerical</span></td>
+          <td>&lt; 140 mg/dL</td>
+          <td>Elevated blood glucose damages glomerular capillaries over time.</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>Blood Urea</td>
+          <td><span class="type-pill type-num">Numerical</span></td>
+          <td>7 – 20 mg/dL</td>
+          <td>High urea indicates the kidney's reduced ability to clear waste.</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>Serum Creatinine</td>
+          <td><span class="type-pill type-num">Numerical</span></td>
+          <td>0.6 – 1.2 mg/dL</td>
+          <td>Primary marker of kidney filtration function (GFR surrogate).</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>Sodium</td>
+          <td><span class="type-pill type-num">Numerical</span></td>
+          <td>135 – 145 mEq/L</td>
+          <td>Electrolyte imbalances reflect kidney regulation failure.</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>Potassium</td>
+          <td><span class="type-pill type-num">Numerical</span></td>
+          <td>3.5 – 5.0 mEq/L</td>
+          <td>Hyperkalemia is a dangerous complication of CKD.</td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td>Hemoglobin</td>
+          <td><span class="type-pill type-num">Numerical</span></td>
+          <td>13.5 – 17.5 g/dL (M)</td>
+          <td>Anemia is common in CKD due to reduced erythropoietin production.</td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td>Packed Cell Volume</td>
+          <td><span class="type-pill type-num">Numerical</span></td>
+          <td>38 – 54 %</td>
+          <td>Hematocrit; low values confirm CKD-related anemia.</td>
+        </tr>
+        <tr>
+          <td>13</td>
+          <td>White Blood Cell Count</td>
+          <td><span class="type-pill type-num">Numerical</span></td>
+          <td>4,000 – 11,000 cells/cumm</td>
+          <td>Elevated WBC may indicate concurrent infection or inflammation.</td>
+        </tr>
+        <tr>
+          <td>14</td>
+          <td>Red Blood Cell Count</td>
+          <td><span class="type-pill type-num">Numerical</span></td>
+          <td>4.5 – 5.9 million/cumm</td>
+          <td>Reduced RBC reflects renal anaemia common in kidney disease.</td>
+        </tr>
+        <!-- Categorical -->
+        <tr>
+          <td>15</td>
+          <td>RBC Condition</td>
+          <td><span class="type-pill type-cat">Categorical</span></td>
+          <td>Normal / Abnormal</td>
+          <td>Dysmorphic red cells in urine suggest glomerular disease.</td>
+        </tr>
+        <tr>
+          <td>16</td>
+          <td>Pus Cell</td>
+          <td><span class="type-pill type-cat">Categorical</span></td>
+          <td>Normal / Abnormal</td>
+          <td>Increased pus cells (pyuria) indicate urinary tract infection or inflammation.</td>
+        </tr>
+        <tr>
+          <td>17</td>
+          <td>Pus Cell Clumps</td>
+          <td><span class="type-pill type-cat">Categorical</span></td>
+          <td>Present / Not Present</td>
+          <td>Clumping suggests significant kidney or urinary tract infection.</td>
+        </tr>
+        <tr>
+          <td>18</td>
+          <td>Bacteria</td>
+          <td><span class="type-pill type-cat">Categorical</span></td>
+          <td>Present / Not Present</td>
+          <td>Bacteriuria can trigger or exacerbate kidney damage in diabetics.</td>
+        </tr>
+        <tr>
+          <td>19</td>
+          <td>Hypertension</td>
+          <td><span class="type-pill type-cat">Categorical</span></td>
+          <td>Yes / No</td>
+          <td>A major independent risk factor that doubles the rate of CKD progression.</td>
+        </tr>
+        <tr>
+          <td>20</td>
+          <td>Diabetes Mellitus</td>
+          <td><span class="type-pill type-cat">Categorical</span></td>
+          <td>Yes / No</td>
+          <td>The root cause of diabetic nephropathy; leads to glomerulosclerosis.</td>
+        </tr>
+        <tr>
+          <td>21</td>
+          <td>Coronary Artery Disease</td>
+          <td><span class="type-pill type-cat">Categorical</span></td>
+          <td>Yes / No</td>
+          <td>Shared vascular risk with CKD; indicates systemic endothelial dysfunction.</td>
+        </tr>
+        <tr>
+          <td>22</td>
+          <td>Appetite</td>
+          <td><span class="type-pill type-cat">Categorical</span></td>
+          <td>Good / Poor</td>
+          <td>Poor appetite is a symptom of uraemia in advanced kidney disease.</td>
+        </tr>
+        <tr>
+          <td>23</td>
+          <td>Pedal Edema</td>
+          <td><span class="type-pill type-cat">Categorical</span></td>
+          <td>Yes / No</td>
+          <td>Fluid retention due to protein loss and reduced kidney function.</td>
+        </tr>
+        <tr>
+          <td>24</td>
+          <td>Anemia</td>
+          <td><span class="type-pill type-cat">Categorical</span></td>
+          <td>Yes / No</td>
+          <td>Impaired erythropoietin secretion in failing kidneys leads to anaemia.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CTA Banner -->
+  <div class="cta-banner">
+    <h2>Ready to run a prediction?</h2>
+    <p>Create a free account or sign in to access the prediction module.</p>
+    <div class="cta-actions">
+      <a href="{{ url_for('register') }}" id="cta-register" class="btn btn-primary" style="max-width:200px;">🧬 Register Now</a>
+      <a href="{{ url_for('login') }}"    id="cta-login"    class="btn btn-outline"  style="max-width:200px;">🔐 Sign In</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>Diabetic Nephropathy Detection System &mdash; Built with Flask &amp; TensorFlow &nbsp;|&nbsp; 2026</p>
+</footer>
+
+</body>
+</html>
